@@ -1,7 +1,9 @@
-在线玩：https://gd4ark.github.io/linkup
+# Doge2048
+Just a couple of minor tweakts to Gabriele Cirulli's code base [here](https://github.com/gabrielecirulli/2048)
 
-游戏截图：
+Made just for fun. [Play it here!](http://doge2048.com)
 
-![](https://ws1.sinaimg.cn/large/006mS5wEgy1g0hquh67twj31jk0uadu5.jpg)
 
-如对您有帮助，欢迎Star！😋
+## License
+Doge2048 is licensed under the [MIT license.](https://github.com/laferrera/doge2048/blob/master/LICENSE.txt)
+
