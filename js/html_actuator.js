@@ -3,21 +3,10 @@ function HTMLActuator() {
   this.scoreContainer   = document.querySelector(".score-container");
   this.bestContainer    = document.querySelector(".best-container");
   this.messageContainer = document.querySelector(".game-message");
-  this.info             = document.querySelector(".info");  
-  this.dogeSays = document.querySelector(".doge-says");
-  this.adSpace = document.querySelector(".shout-out");
+  this.sharingContainer = document.querySelector(".score-sharing");
 
   this.score = 0;
 }
-
-var dogeSayings = ['such good', 'so amaze', 'many points', 'very unstoppable', 'great jorb', 'such playing', 'very good', 'points', 'very gaming', 'such player', 'concern' ,'bewildered',
-'many game', 'so good', 'very scores', 'so scoring', 'so hot right now', 'such playing', 'such matching', 'so matched', 'very matched', 'very neat' ,'such natural',]
-
-var ads = [
-
-  '<a href="https://itunes.apple.com/us/app/snack-compass/id646138186?mt=8&ign-mpt=uo%3D4" target="_blank">Like Pizza?</a>',
-  '<a href="http://maxhash.com/doge" target="_blank">Check out everything hashtagged Doge!</a>',
-]
 
 HTMLActuator.prototype.actuate = function (grid, metadata) {
   var self = this;
@@ -48,7 +37,10 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 };
 
 // Continues the game (both restart and keep playing)
-HTMLActuator.prototype.continue = function () {
+HTMLActuator.prototype.continueGame = function () {
+  if (typeof ga !== "undefined") {
+    ga("send", "event", "game", "restart");
+  }
   this.clearMessage();
 };
 
@@ -59,10 +51,25 @@ HTMLActuator.prototype.clearContainer = function (container) {
 };
 
 HTMLActuator.prototype.addTile = function (tile) {
+  var valueMap = {
+    2 :    '<Udacity>',
+    4 :    '<Intro CS>',
+    8 :    "skills=['code']",
+    16 :   "skills.add('CSS')",
+    32 :   '</Intro CS>',
+    64 :   '<Job search>',
+    128 :  'getJob(skills)',
+    256 :  '</Job search>',
+    512 :  'if Udacious:',
+    1024 : 'skills.increase()',
+    2048 : 'myJob.advance()',
+    4096 : 'myCareer=myJob'
+  }
   var self = this;
 
   var wrapper   = document.createElement("div");
   var inner     = document.createElement("div");
+  
   var position  = tile.previousPosition || { x: tile.x, y: tile.y };
   var positionClass = this.positionClass(position);
 
@@ -74,7 +81,8 @@ HTMLActuator.prototype.addTile = function (tile) {
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.textContent = tile.value;
+  //inner.textContent = tile.value;
+  inner.textContent = valueMap[tile.value];
 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
@@ -117,7 +125,6 @@ HTMLActuator.prototype.positionClass = function (position) {
 
 HTMLActuator.prototype.updateScore = function (score) {
   this.clearContainer(this.scoreContainer);
-  this.clearContainer(this.dogeSays)
 
   var difference = score - this.score;
   this.score = score;
@@ -128,21 +135,8 @@ HTMLActuator.prototype.updateScore = function (score) {
     var addition = document.createElement("div");
     addition.classList.add("score-addition");
     addition.textContent = "+" + difference;
+
     this.scoreContainer.appendChild(addition);
-    
-    var message = dogeSayings[Math.floor(Math.random() * dogeSayings.length)]
-    var messageElement = document.createElement("p");
-    messageElement.textContent = message
-    var left = 'left:' + Math.round(Math.random() * 80) + '%;'
-    var top = 'top:' + Math.round(Math.random() * 80) + '%;'
-    var color = 'color: rgb(' + Math.round(Math.random() * 255) + ', ' + Math.round(Math.random() * 255) + ', ' + Math.round(Math.random() * 255) + ');'
-    var styleString = left + top + color
-    messageElement.setAttribute('style', styleString);
-    this.dogeSays.appendChild(messageElement);
-    if (difference > 4) {
-     this.adSpace.innerHTML = ads[Math.floor(Math.random() * ads.length)]
-    }
-    
   }
 };
 
@@ -154,8 +148,16 @@ HTMLActuator.prototype.message = function (won) {
   var type    = won ? "game-won" : "game-over";
   var message = won ? "You win!" : "Game over!";
 
+  if (typeof ga !== "undefined") {
+    ga("send", "event", "game", "end", type, this.score);
+  }
+
   this.messageContainer.classList.add(type);
   this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+
+  this.clearContainer(this.sharingContainer);
+  this.sharingContainer.appendChild(this.scoreTweetButton());
+  twttr.widgets.load();
 };
 
 HTMLActuator.prototype.clearMessage = function () {
@@ -164,18 +166,14 @@ HTMLActuator.prototype.clearMessage = function () {
   this.messageContainer.classList.remove("game-over");
 };
 
+HTMLActuator.prototype.scoreTweetButton = function () {
+  var tweet = document.createElement("a");
+  tweet.classList.add("twitter-share-button");
+  tweet.setAttribute("href", "https://twitter.com/share");
+  tweet.textContent = "Tweet";
 
-HTMLActuator.prototype.showInfo = function () {
-  if ( this.info.getAttribute('style') === "display:block;"){
-    this.info.setAttribute('style','display:none;')
-    document.querySelector('.show-info').innerHTML = 'INFO';
-  } else {
-    this.info.setAttribute('style','display:block;') 
-    document.querySelector('.show-info').innerHTML = 'CLOSE';
-  }
-}
+  var text = "" + this.score + " points in Udacity2048! http://ow.ly/vpoFS Code your own game in their new mini course http://ow.ly/vpaLY #2048game"
+  tweet.setAttribute("data-text", text);
 
-
-HTMLActuator.prototype.hideInfo = function () {
-    this.info.setAttribute('style','display:none;')
-}
+  return tweet;
+};
