@@ -9,8 +9,7 @@ function HTMLActuator() {
   this.score = 0;
 }
 
-var dogeSayings = ['such good', 'so amaze', 'many points', 'very unstoppable', 'great jorb', 'such playing', 'very good', 'points', 'very gaming', 'such player', 'concern' ,'bewildered',
-'many game', 'so good', 'very scores', 'so scoring', 'so hot right now', 'such playing', 'such matching', 'so matched', 'very matched', 'very neat' ,'such natural',]
+var dogeSayings = ['臭傻逼', '错在哪？', '你这样子做事不行的！', '独自沉稳的睡去', '为什么这个表情？', "我是不是很聪明？","高霸天威武","",]
 
 
 HTMLActuator.prototype.actuate = function (grid, metadata) {
