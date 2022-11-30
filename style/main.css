@@ -91,7 +91,46 @@ h1.title {
 .scores-container {
   float: right;
   text-align: right; }
+  
+.game-container .doge-says {
+    position: fixed;
+    top: 0;
+    left: 0;
+  z-index: 100;}
 
+.game-container .doge-says p {
+    position:fixed;
+    font-size: 60px;
+    font-weight: bold;
+    height: 60px;
+    line-height: 60px;
+    -webkit-animation: fade-in-out 600ms ease-in;
+    -moz-animation: fade-in-out 600ms ease-in;
+    animation: fade-in-out 600ms ease-in;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    animation-fill-mode: both; }
+
+    .shout-out-container{
+      text-align:center;
+    }
+    .shout-out{
+      height:10px;
+      line-height: 10px;
+      background: #f0f;
+      padding: 10px 10px;
+      border-radius: 3px;
+      display:inline-block;
+    }
+    
+  .shout-out a{
+    font-weight: normal;
+    height:10px;
+    width:auto;
+    text-decoration:none;
+    color:#fff;
+  }
+  
 .score-container, .best-container {
   position: relative;
   display: inline-block;
@@ -215,6 +254,11 @@ hr {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
+
+.doge-says p {
+    font-size: 30px !important;
+    height: 30px !important;
+    line-height: 30px !important;}
 
 .game-message {
   display: none;

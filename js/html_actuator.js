@@ -4,9 +4,14 @@ function HTMLActuator() {
   this.bestContainer    = document.querySelector(".best-container");
   this.messageContainer = document.querySelector(".game-message");
   this.sharingContainer = document.querySelector(".score-sharing");
+  this.dogeSays = document.querySelector(".doge-says");
 
   this.score = 0;
 }
+
+var dogeSayings = ['such good', 'so amaze', 'many points', 'very unstoppable', 'great jorb', 'such playing', 'very good', 'points', 'very gaming', 'such player', 'concern' ,'bewildered',
+'many game', 'so good', 'very scores', 'so scoring', 'so hot right now', 'such playing', 'such matching', 'so matched', 'very matched', 'very neat' ,'such natural',]
+
 
 HTMLActuator.prototype.actuate = function (grid, metadata) {
   var self = this;
@@ -125,6 +130,7 @@ HTMLActuator.prototype.positionClass = function (position) {
 
 HTMLActuator.prototype.updateScore = function (score) {
   this.clearContainer(this.scoreContainer);
+  this.clearContainer(this.dogeSays)
 
   var difference = score - this.score;
   this.score = score;
@@ -135,8 +141,21 @@ HTMLActuator.prototype.updateScore = function (score) {
     var addition = document.createElement("div");
     addition.classList.add("score-addition");
     addition.textContent = "+" + difference;
+    this.scoreContainer.appendChild(addition); // the score container
+    // dog saying 
+    var message = dogeSayings[Math.floor(Math.random() * dogeSayings.length)]
+    var messageElement = document.createElement("p");
+    messageElement.textContent = message
+    var left = 'left:' + Math.round(Math.random() * 80) + '%;'
+    var top = 'top:' + Math.round(Math.random() * 80) + '%;'
+    var color = 'color: rgb(' + Math.round(Math.random() * 255) + ', ' + Math.round(Math.random() * 255) + ', ' + Math.round(Math.random() * 255) + ');'
+    var styleString = left + top + color
+    messageElement.setAttribute('style', styleString);
+    this.dogeSays.appendChild(messageElement);
+    if (difference > 4) {
+     this.adSpace.innerHTML = ads[Math.floor(Math.random() * ads.length)]
+    }
 
-    this.scoreContainer.appendChild(addition);
   }
 };
 
