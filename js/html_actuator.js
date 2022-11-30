@@ -9,7 +9,8 @@ function HTMLActuator() {
   this.score = 0;
 }
 
-var dogeSayings = ['臭傻逼', '错在哪？', '你这样子做事不行的！', '独自沉稳的睡去', '为什么这个表情？', "我是不是很聪明？","高霸天威武","",]
+var dogeSayings = ['臭傻逼', '错在哪？', '你这样子做事不行的！', '独自沉稳的睡去', '为什么这个表情？', "我是不是很聪明？","高霸天威武","你说话啊！","最聪明的宝宝就是我！","瞧瞧你那样子",
+"都说了不能这样子","想摸摸你","你岂不是受了我的影响","你以前啥样","宝贝贝","生日快乐",]
 
 
 HTMLActuator.prototype.actuate = function (grid, metadata) {
@@ -164,7 +165,7 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
 
 HTMLActuator.prototype.message = function (won) {
   var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+  var message = won ? "生日快乐，宝宝宝！" : "臭傻逼永远爱你！";
 
   if (typeof ga !== "undefined") {
     ga("send", "event", "game", "end", type, this.score);
